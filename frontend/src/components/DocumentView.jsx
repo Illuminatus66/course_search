@@ -6,7 +6,12 @@ import { useDispatch } from "react-redux";
 function highlightMatches(text, queryTerms) {
   if (!queryTerms || queryTerms.length === 0) return text;
 
-  const pattern = new RegExp(`(${queryTerms.join("|")})`, "gi");
+  // Escape regex special characters in terms
+  const escapedTerms = queryTerms.map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+
+  // Word boundary version
+  const pattern = new RegExp(`\\b(${escapedTerms.join("|")})\\b`, "gi");
+
   return text
     .split(pattern)
     .map((part, index) =>

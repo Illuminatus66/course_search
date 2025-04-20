@@ -38,18 +38,26 @@ def search():
     # Compute cosine similarity
     similarity_scores = cosine_similarity(query_vector, doc_vectors).flatten()
 
-    # Pair scores with filenames
-    ranked_results = sorted(
-        [(filenames[i], float(similarity_scores[i])) for i in range(len(similarity_scores))],
-        key=lambda x: x[1],
-        reverse=True
-    )
+    boosted_results = []
 
-    # Only return matches with score > 0
+    for i in range(len(similarity_scores)):
+        score = float(similarity_scores[i])
+        content = documents[i]
+
+        # Boost if exact phrase is present
+        if query.lower() in content.lower():
+            score += 0.05
+
+        boosted_results.append((filenames[i], score))
+
+    # Sort by boosted score, descending
+    ranked_results = sorted(boosted_results, key=lambda x: x[1], reverse=True)
+
+    # Return only the top 5 matches (if score > 0)
     results = [
-        {'document': name, 'score': score, 'queryTerms': query.split() }
+        {'document': name, 'score': score, 'queryTerms': query.split()}
         for name, score in ranked_results if score > 0
-    ]
+    ][:5]
 
     return jsonify({'results': results})
 
