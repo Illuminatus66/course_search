@@ -7,7 +7,9 @@ function highlightMatches(text, queryTerms) {
   if (!queryTerms || queryTerms.length === 0) return text;
 
   // Escape regex special characters in terms
-  const escapedTerms = queryTerms.map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const escapedTerms = queryTerms.map((term) =>
+    term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+  );
 
   // Word boundary version
   const pattern = new RegExp(`\\b(${escapedTerms.join("|")})\\b`, "gi");
@@ -25,7 +27,7 @@ function highlightMatches(text, queryTerms) {
 
 function DocumentView() {
   const { filename } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -82,7 +84,8 @@ function DocumentView() {
         <h2 style={{ margin: 0, textAlign: "center", flexGrow: 1 }}>
           {filename}
         </h2>
-        <div style={{ width: "120px" }} /> {/* Dummy for button space symmetry */}
+        <div style={{ width: "120px" }} />{" "}
+        {/* Dummy for button space symmetry */}
       </div>
 
       {loading ? (
