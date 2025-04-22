@@ -1,6 +1,6 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import "./CurrentSearchAnalysis.css";
+import { useSelector } from "react-redux";
 
 const CurrentSearchAnalysis = () => {
   const analysis = useSelector((state) => state.list.analysis);
@@ -13,8 +13,8 @@ const CurrentSearchAnalysis = () => {
       <p><strong>Terms:</strong> {analysis.query_length}</p>
       <p><strong>Matches Found:</strong> {analysis.total_documents_matched}</p>
       <p><strong>Exact Phrase In:</strong> {analysis.exact_phrase_found_in} document(s)</p>
-      <p><strong>Highest Score:</strong> {analysis.highest_score.toFixed(3)}</p>
-      <p><strong>Search Time:</strong> {analysis.search_duration.toFixed(3)}s</p>
+      <p><strong>Highest Score:</strong> {analysis.highest_score}</p>
+      <p><strong>Search Time:</strong> {analysis.search_duration}s</p>
     </div>
   );
 };

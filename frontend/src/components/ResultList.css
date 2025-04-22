@@ -4,23 +4,28 @@
 }
 
 .result-item {
-  border: 1px solid #ccc;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 10px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.1s;
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 255, 0, 0.1);
+  color: #eee;
 }
 
 .result-item:hover {
-  background-color: #f5f5f5;
+  background-color: rgba(0, 128, 0, 0.2);
+  transform: translateY(-2px);
 }
 
 .result-header {
   font-size: 16px;
   margin-bottom: 8px;
+  color: #fff;
 }
 
 .result-queryterms {
-  color: #555;
+  color: #a0e7a0;
 }

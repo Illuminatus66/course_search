@@ -27,16 +27,23 @@ const Home = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search the database..."
+          className="search-input"
         />
-        <button onClick={handleSearch}>Search</button>
-        <button onClick={handleClear} disabled={!list || list.length === 0}>
+        <button onClick={handleSearch} className="search-button">
+          Search
+        </button>
+        <button
+          onClick={handleClear}
+          disabled={!list || list.length === 0}
+          className="clear-button"
+        >
           Clear List
         </button>
       </div>
 
-      <CurrentSearchAnalysis />
+      {list?.length > 0 && <CurrentSearchAnalysis />}
 
-      <ResultList results={list}/>
+      <ResultList results={list} />
     </div>
   );
 };

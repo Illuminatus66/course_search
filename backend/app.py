@@ -43,7 +43,6 @@ def search():
     similarity_scores = cosine_similarity(query_vector, doc_vectors).flatten()
 
     boosted_results = []
-
     for i in range(len(similarity_scores)):
         score = float(similarity_scores[i])
         content = documents[i]

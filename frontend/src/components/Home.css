@@ -5,9 +5,51 @@
   justify-content: start;
   min-height: 100vh;
   padding-top: 15vh;
+  background-color: black;
 }
 
 .search-area {
   display: flex;
-  gap: 10px;
+  gap: 15px;
+}
+
+.search-input {
+  width: 400px;
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+}
+
+.search-button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: darkgreen;
+}
+
+.clear-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.clear-button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+.clear-button:not(:disabled):hover {
+  background-color: darkred;
 }

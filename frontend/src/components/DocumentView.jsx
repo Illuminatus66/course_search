@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { fetchDocument } from "../actions";
 import { useDispatch } from "react-redux";
@@ -45,7 +45,10 @@ function DocumentView() {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const queryTerms = location.state?.queryTerms || [];
+  const queryTerms = useMemo(
+    () => location.state?.queryTerms || [],
+    [location.state]
+  );
 
   const [document, setDocument] = useState("");
   const [matchSummary, setMatchSummary] = useState({});
@@ -73,41 +76,62 @@ function DocumentView() {
 
   return (
     <div
-      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        minHeight: "100vh",
+        backgroundColor: "black",
+        paddingTop: "2rem",
+      }}
     >
+      {/* Header Section */}
       <div
         style={{
           width: "85%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: "1rem",
+          border: "1px solid rgba(255,255,255,0.2)",
+          borderRadius: "8px",
+          padding: "1rem",
+          marginBottom: "1.5rem",
+          color: "white",
         }}
       >
-        <button
-          onClick={() => navigate(-1)}
+        <div
           style={{
-            padding: "0.4rem 0.8rem",
-            backgroundColor: "#007BFF",
-            color: "#fff",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          ← Back to Search
-        </button>
-        <h2 style={{ margin: 0, textAlign: "center", flexGrow: 1 }}>
-          {filename}
-        </h2>
+          <button
+            onClick={() => navigate(-1)}
+            style={{
+              padding: "0.4rem 0.8rem",
+              backgroundColor: "#007BFF",
+              color: "#fff",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            ← Back to Search
+          </button>
+          <h2 style={{ margin: 0, textAlign: "center", flexGrow: 1 }}>
+            {filename}
+          </h2>
+          <div style={{ width: "120px" }} /> {/* Spacer for alignment */}
+        </div>
+
         {!loading && queryTerms.length > 0 && (
-          <div style={{ margin: "0.5rem 0", fontSize: "1rem" }}>
+          <div style={{ marginTop: "1rem", fontSize: "1rem" }}>
             <strong>Matched Terms:</strong>
             <ul style={{ marginTop: "0.3rem" }}>
               {queryTerms.map((term) => (
                 <li
                   key={term}
-                  style={{ color: matchSummary[term] > 0 ? "green" : "red" }}
+                  style={{
+                    color: matchSummary[term] > 0 ? "limegreen" : "orangered",
+                  }}
                 >
                   {term}: {matchSummary[term] || 0} occurrence
                   {(matchSummary[term] || 0) !== 1 ? "s" : ""}
@@ -116,21 +140,22 @@ function DocumentView() {
             </ul>
           </div>
         )}
-        <div style={{ width: "120px" }} />{" "}
-        {/* Dummy for button space symmetry */}
       </div>
 
+      {/* Document Viewer */}
       {loading ? (
-        <p>Loading...</p>
+        <p style={{ color: "white" }}>Loading...</p>
       ) : (
         <div
           style={{
             width: "85%",
             height: "60vh",
             overflowY: "scroll",
-            border: "1px solid #ccc",
+            border: "1px solid rgba(0,0,0,0.3)",
             borderRadius: "8px",
             padding: "1rem",
+            backgroundColor: "#f5f5f5",
+            color: "black",
             whiteSpace: "pre-wrap",
             textAlign: "left",
           }}
