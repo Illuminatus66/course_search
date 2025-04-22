@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearList, searchQuery } from "../actions/index";
 import "./Home.css";
+import ResultList from "./ResultList";
+import CurrentSearchAnalysis from "./CurrentSearchAnalysis";
 
 const Home = () => {
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const list = useSelector((state) => state.list.list);
 
   const handleSearch = async () => {
@@ -34,32 +34,9 @@ const Home = () => {
         </button>
       </div>
 
-      {list && list.length > 0 && (
-        <div className="result-list">
-          {list.map((result, index) => (
-            <div
-              key={index}
-              className="result-item"
-              onClick={() =>
-                navigate(`/document/${result.document}`, {
-                  state: { queryTerms: result.queryTerms },
-                })
-              }
-            >
-              <div className="result-header">
-                <strong>{result.document}</strong>
-                <span> — Score: {result.score.toFixed(3)}</span>
-              </div>
-              <div className="result-queryterms">
-                {Array.isArray(result.queryTerms) &&
-                result.queryTerms.length > 0
-                  ? result.queryTerms.join(", ")
-                  : "No query terms."}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      <CurrentSearchAnalysis />
+
+      <ResultList results={list}/>
     </div>
   );
 };
