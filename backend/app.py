@@ -2,17 +2,11 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from pymongo import MongoClient
 import os
 import time
 
 app = Flask(__name__)
 CORS(app)
-
-# /// MongoDB Connection ///
-client = MongoClient("mongodb://localhost:27017/")
-db = client["search_app"]
-search_logs = db["search_logs"]
 
 # /// Load and vectorize documents ///
 DOC_FOLDER = "documents"
@@ -87,9 +81,6 @@ def search():
         ],
     }
 
-    # Store the search analysis in MongoDB
-    search_logs.insert_one(analysis)
-
     return jsonify({"results": results, "analysis": analysis})
 
 
@@ -102,13 +93,6 @@ def get_document(filename):
         return jsonify({"filename": filename, "content": content})
     except FileNotFoundError:
         return jsonify({"error": "File not found"}), 404
-
-
-# /// Fetch Search History ///
-@app.route("/search-history", methods=["GET"])
-def search_history():
-    history = list(search_logs.find({}, {"_id": 0}).sort("timestamp", -1))
-    return jsonify({"history": history})
 
 
 if __name__ == "__main__":

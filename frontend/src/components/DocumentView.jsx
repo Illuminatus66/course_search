@@ -69,7 +69,7 @@ function DocumentView() {
     };
 
     fetchdocument();
-  }, [dispatch, filename, navigate]);
+  }, [dispatch, filename, navigate, queryTerms]);
 
   return (
     <div
